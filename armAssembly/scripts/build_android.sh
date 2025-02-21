@@ -7,9 +7,9 @@ basepath=$(cd `dirname $0`/..; pwd)
 
 BUILD_DIR=${basepath}/build_android
 
-BUILD_ANDROID_NDK_HOME=/mnt/d/downloads/android-ndk-r16b
-DEPLOY_DIR=/data/local/tmp/assembly
-CMAKE_PATH=/mnt/d/downloads/cmake-3.11.4/bin/cmake
+BUILD_ANDROID_NDK_HOME=/Users/liuqiaoping/Library/Android/sdk/ndk/28.0.13004108
+DEPLOY_DIR=/data/local/tmp/build_android
+CMAKE_PATH=cmake
 
 # ABI="armeabi-v7a"
 ABI="arm64-v8a"
@@ -34,14 +34,14 @@ ${CMAKE_PATH} \
 make all -j4
 
 ##### geenrate disassembly files
-DISASSEMBLY_FILES_PATH=${basepath}/datas/disassemble_files
-${BUILD_ANDROID_NDK_HOME}/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin/aarch64-linux-android-objdump \
-    -d  ${BUILD_DIR}/CMakeFiles/assemblyEx1ArrWeightSum.dir/assemblyEx1ArrWeightSum.cpp.o \
-    > ${DISASSEMBLY_FILES_PATH}/assemblyEx1ArrWeightSum_${ABI}.txt
+# DISASSEMBLY_FILES_PATH=${basepath}/datas/disassemble_files
+# ${BUILD_ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-dis \
+#     ${BUILD_DIR}/assemblyEx1ArrWeightSum \
+#     -o ${DISASSEMBLY_FILES_PATH}/assemblyEx1ArrWeightSum_${ABI}.txt
 
-${BUILD_ANDROID_NDK_HOME}/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin/aarch64-linux-android-objdump \
-    -d  ${BUILD_DIR}/CMakeFiles/assemblyEx2Rgb2Gray.dir/assemblyEx2Rgb2Gray.cpp.o \
-    > ${DISASSEMBLY_FILES_PATH}/assemblyEx2Rgb2Gray_${ABI}.txt
+# ${BUILD_ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-dis \
+#     ${BUILD_DIR}/assemblyEx2Rgb2Gray \
+#     -o ${DISASSEMBLY_FILES_PATH}/assemblyEx2Rgb2Gray_${ABI}.txt
 
 adb shell "mkdir -p ${DEPLOY_DIR}"
 
@@ -58,7 +58,7 @@ OUTPUT_PATH=${basepath}/datas/results/
 adb push ${INPUT_PATH} ${DEPLOY_DIR}
 adb push ${BUILD_DIR}/assemblyEx2Rgb2Gray ${DEPLOY_DIR}
 adb shell "cd ${DEPLOY_DIR}; ./assemblyEx2Rgb2Gray ${INPUT_NAME} ${OUTPUT_NAME}"
-adb pull ${DEPLOY_DIR}/${OUTPUT_NAME} ${OUTPUT_PATH}
+adb pull ${DEPLOY_DIR} ${OUTPUT_PATH}
 
 
 

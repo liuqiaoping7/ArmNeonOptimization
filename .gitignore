@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+build pull files
+*build_android*

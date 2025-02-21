@@ -12,6 +12,7 @@ cmake_minimum_required(VERSION 3.5)
 project(getCPUid)
 
 set(CMAKE_CXX_STANDARD 11)
+enable_language(ASM)
 
 # generate compile_commands.json for function jumps
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -39,6 +40,9 @@ add_executable(assemblyEx1ArrWeightSum
 
 add_executable(assemblyEx2Rgb2Gray
                assemblyEx2Rgb2Gray.cpp)
+
+add_executable(gflops_benchmark
+               loop.S gflops_benchmark.cpp)
 
 
 
